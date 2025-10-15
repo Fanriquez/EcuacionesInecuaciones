@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Quiz de Matemáticas</title>
+  <title>Quiz Matemático Divertido</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>¡Bienvenido al Quiz de Matemáticas!</h1>
+    <h1>🎉 Quiz de Matemáticas 🎉</h1>
 
     <div id="start-screen">
       <button id="start-btn">Comenzar</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
+      <div id="score-container">
+        Puntaje: <span id="score-display">0</span> / 10
+      </div>
       <div id="question-container">
         <p id="question-text"></p>
         <div id="answer-buttons" class="btn-container"></div>
       </div>
-      <button id="next-btn" class="hidden">Siguiente</button>
+      <p id="feedback"></p>
+      <button id="next-btn" class="hidden">Siguiente ➡️</button>
     </div>
 
     <div id="result-screen" class="hidden">
-      <h2>Resultados</h2>
+      <h2>Resultados 🎯</h2>
       <p id="score-text"></p>
-      <button id="restart-btn">Reiniciar</button>
+      <button id="restart-btn">Reiniciar 🔄</button>
     </div>
   </div>
 
