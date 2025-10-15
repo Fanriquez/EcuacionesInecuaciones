@@ -6,6 +6,8 @@ const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
 const questionText = document.getElementById('question-text');
 const answerButtons = document.getElementById('answer-buttons');
+const feedbackEl = document.getElementById('feedback');
+const scoreDisplay = document.getElementById('score-display');
 const scoreText = document.getElementById('score-text');
 
 let currentQuestion = 0;
@@ -15,35 +17,35 @@ let selectedQuestions = [];
 // Lista de 30 preguntas
 const allQuestions = [
   { texto: "Resolver 2x = 8", correcta: "x = 4", incorrectas: ["x = 16", "x = 2"] },
-  { texto: "Resolver x/3 = 5", correcta: "x = 15", incorrectas: ["x = 8", "x = 2"] },
+  { texto: "Resolver x / 3 = 5", correcta: "x = 15", incorrectas: ["x = 8", "x = 2"] },
   { texto: "Resolver x + 7 = 10", correcta: "x = 3", incorrectas: ["x = 17", "x = -3"] },
   { texto: "Resolver 5x - 10 = 0", correcta: "x = 2", incorrectas: ["x = -2", "x = 10"] },
   { texto: "Resolver 3(x - 2) = 6", correcta: "x = 4", incorrectas: ["x = 2", "x = 0"] },
   { texto: "Resolver 2x + 3 < 7", correcta: "x < 2", incorrectas: ["x > 2", "x < 5"] },
-  { texto: "Resolver x/4 + 1 ≥ 3", correcta: "x ≥ 8", incorrectas: ["x ≤ 8", "x ≥ 12"] },
+  { texto: "Resolver x / 4 + 1 ≥ 3", correcta: "x ≥ 8", incorrectas: ["x ≤ 8", "x ≥ 12"] },
   { texto: "Resolver -x + 5 > 1", correcta: "x < 4", incorrectas: ["x > 4", "x < -4"] },
   { texto: "Resolver 2x - 3 ≤ 5", correcta: "x ≤ 4", incorrectas: ["x ≥ 4", "x ≤ 8"] },
-  { texto: "Resolver x/2 - 1 = 3", correcta: "x = 8", incorrectas: ["x = 6", "x = 4"] },
+  { texto: "Resolver x / 2 - 1 = 3", correcta: "x = 8", incorrectas: ["x = 6", "x = 4"] },
   { texto: "Resolver x - 5 = 0", correcta: "x = 5", incorrectas: ["x = -5", "x = 0"] },
   { texto: "Resolver 4x + 1 = 9", correcta: "x = 2", incorrectas: ["x = 8", "x = 1"] },
   { texto: "Resolver 3x - 2 = 7", correcta: "x = 3", incorrectas: ["x = 5", "x = 2"] },
-  { texto: "Resolver x/5 + 2 = 4", correcta: "x = 10", incorrectas: ["x = 2", "x = 5"] },
+  { texto: "Resolver x / 5 + 2 = 4", correcta: "x = 10", incorrectas: ["x = 2", "x = 5"] },
   { texto: "Resolver 2x - 7 > 1", correcta: "x > 4", incorrectas: ["x < 4", "x > 3"] },
   { texto: "Resolver -3x + 6 ≤ 0", correcta: "x ≥ 2", incorrectas: ["x ≤ 2", "x ≥ -2"] },
   { texto: "Resolver x + 3 < 10", correcta: "x < 7", incorrectas: ["x > 7", "x < 13"] },
   { texto: "Resolver 5 - x ≥ 2", correcta: "x ≤ 3", incorrectas: ["x ≥ 3", "x ≤ 2"] },
-  { texto: "Resolver 2x/3 = 4", correcta: "x = 6", incorrectas: ["x = 12", "x = 2"] },
-  { texto: "Resolver x/6 + 2 ≤ 5", correcta: "x ≤ 18", incorrectas: ["x ≥ 18", "x ≤ 12"] },
+  { texto: "Resolver 2x / 3 = 4", correcta: "x = 6", incorrectas: ["x = 12", "x = 2"] },
+  { texto: "Resolver x / 6 + 2 ≤ 5", correcta: "x ≤ 18", incorrectas: ["x ≥ 18", "x ≤ 12"] },
   { texto: "Resolver 7x - 14 = 0", correcta: "x = 2", incorrectas: ["x = 0", "x = -2"] },
-  { texto: "Resolver x/2 + 3 > 5", correcta: "x > 4", incorrectas: ["x < 4", "x > 2"] },
+  { texto: "Resolver x / 2 + 3 > 5", correcta: "x > 4", incorrectas: ["x < 4", "x > 2"] },
   { texto: "Resolver 3x + 1 ≤ 10", correcta: "x ≤ 3", incorrectas: ["x ≥ 3", "x ≤ 4"] },
-  { texto: "Resolver x - x/2 = 6", correcta: "x = 12", incorrectas: ["x = 6", "x = 3"] },
+  { texto: "Resolver x - x / 2 = 6", correcta: "x = 12", incorrectas: ["x = 6", "x = 3"] },
   { texto: "Resolver 2(x + 1) = 10", correcta: "x = 4", incorrectas: ["x = 5", "x = 6"] },
-  { texto: "Resolver -x/2 + 4 < 2", correcta: "x > 4", incorrectas: ["x < 4", "x > 2"] },
-  { texto: "Resolver x/3 - 2 ≥ 1", correcta: "x ≥ 9", incorrectas: ["x ≤ 9", "x ≥ 6"] },
+  { texto: "Resolver -x / 2 + 4 < 2", correcta: "x > 4", incorrectas: ["x < 4", "x > 2"] },
+  { texto: "Resolver x / 3 - 2 ≥ 1", correcta: "x ≥ 9", incorrectas: ["x ≤ 9", "x ≥ 6"] },
   { texto: "Resolver 4x + 5 = 13", correcta: "x = 2", incorrectas: ["x = 3", "x = 4"] },
-  { texto: "Resolver x - 3/2 = 1", correcta: "x = 5/2", incorrectas: ["x = 2", "x = 3/2"] },
-  { texto: "Resolver 5x/2 = 10", correcta: "x = 4", incorrectas: ["x = 2", "x = 5"] }
+  { texto: "Resolver x - 3 / 2 = 1", correcta: "x = 5 / 2", incorrectas: ["x = 2", "x = 3 / 2"] },
+  { texto: "Resolver 5x / 2 = 10", correcta: "x = 4", incorrectas: ["x = 2", "x = 5"] }
 ];
 
 // Función para mezclar
@@ -66,12 +68,16 @@ startBtn.addEventListener('click', () => {
   quizScreen.classList.remove('hidden');
   currentQuestion = 0;
   score = 0;
+  scoreDisplay.textContent = score;
+  feedbackEl.textContent = "";
   selectedQuestions = selectRandomQuestions();
   showQuestion();
 });
 
 nextBtn.addEventListener('click', () => {
   currentQuestion++;
+  feedbackEl.textContent = "";
+  feedbackEl.classList.remove('feedback-animate');
   if (currentQuestion < selectedQuestions.length) {
     showQuestion();
   } else {
@@ -105,17 +111,24 @@ function showQuestion() {
 // Seleccionar respuesta
 function selectAnswer(answer) {
   const q = selectedQuestions[currentQuestion];
-  if (answer === q.correcta) score++;
-  
-  Array.from(answerButtons.children).forEach(button => {
-    if (button.textContent === q.correcta) {
-      button.style.backgroundColor = '#4CAF50';
-    } else {
-      button.style.backgroundColor = '#f44336';
-    }
-    button.disabled = true;
-  });
+  Array.from(answerButtons.children).forEach(button => button.disabled = true);
 
+  const correctMessages = ["¡Genial! 😄", "¡Excelente! 🌟", "¡Muy bien! 🎉", "¡Bravo! 🏆"];
+  const wrongMessages = ["¡No pasa nada! 😢", "¡Sigue intentando! 💪", "¡Casi! 😅", "¡Ánimo! ✨"];
+
+  feedbackEl.classList.remove('feedback-animate');
+
+  if (answer === q.correcta) {
+    score++;
+    scoreDisplay.textContent = score;
+    feedbackEl.textContent = correctMessages[Math.floor(Math.random() * correctMessages.length)];
+    feedbackEl.style.color = "#4CAF50";
+  } else {
+    feedbackEl.textContent = `${wrongMessages[Math.floor(Math.random() * wrongMessages.length)]} La respuesta correcta es ${q.correcta}`;
+    feedbackEl.style.color = "#f44336";
+  }
+
+  feedbackEl.classList.add('feedback-animate');
   nextBtn.classList.remove('hidden');
 }
 
@@ -123,5 +136,6 @@ function selectAnswer(answer) {
 function showResult() {
   quizScreen.classList.add('hidden');
   resultScreen.classList.remove('hidden');
-  scoreText.textContent = `Aciertos: ${score} / ${selectedQuestions.length}`;
+  scoreText.textContent = `Tu puntaje final es ${score} / ${selectedQuestions.length} 🎉`;
 }
+
